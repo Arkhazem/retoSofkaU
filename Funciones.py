@@ -41,12 +41,12 @@ CapacidadtripulantesaCrear = ""
 Hangar = [['Saturno V','Lanzadera','1973','USA','Propelente quimico','Transportar nave tripulada', '3500 kN','3500x5 kN'],
           ['Proton','Lanzadera','2001','Rusia','Quimico solido','Transporte de satelites','2700 kN','1745x6 kN'],
           ['H-IIA','Lanzadera','2001','Japon','Propelente quimico','Transporte de sondas','2300 kN','1500x6 kN'],
-          ['Cassini-Huygens','No Tripulada','1997','USA, Europa, Italia','Propelente quimico','Transmitir informacion','45,39 Kg\n'],
-          ['Mariner IV','No Tripulada','1964','USA','Propelente quimico','Transmitir informacion','22,44 Kg'],
-          ['Helios','No Tripulada','2009','USA, Alemania','Propelente quimico','Transmitir informacion','70,4 Kg'],
-          ['LEM Apolo','3','1968','USA','Propelente quimico','Transportar astronautas a la luna','15,6 kN'],
-          ['Salyut I','3','1971','Rusia','Quimico solido','Observacion cientifica','5,8 kN'],
-          ['Vostok I','3','1960','Rusia','Quimico solido','Vuelos tripulados','13,4 kN']]
+          ['Cassini-Huygens','No Tripulada','1997','USA, Europa, Italia','Propelente quimico','Transmitir informacion','45,39 Kg\n','50,32 Kg'],
+          ['Mariner IV','No Tripulada','1964','USA','Propelente quimico','Transmitir informacion','22,44 Kg', '30,65 Kg'],
+          ['Helios','No Tripulada','2009','USA, Alemania','Propelente quimico','Transmitir informacion','70,4 Kg','67,5 Kg'],
+          ['LEM Apolo','Tripulada','1968','USA','Propelente quimico','Transportar astronautas a la luna','15,6 kN','20kN'],
+          ['Salyut I','Tripulada','1971','Rusia','Quimico solido','Observacion cientifica','5,8 kN','4,3kN'],
+          ['Vostok I','Tripulada','1960','Rusia','Quimico solido','Vuelos tripulados','13,4 kN','14kN']]
 
 # Creación de Hangar de Naves Lanzadera por defecto.
 
@@ -56,15 +56,15 @@ HangarLanzadera = [['Saturno V','Lanzadera','1973','USA','Propelente quimico','T
 
 # Creación de Hangar de Naves NoTripuladas por defecto.
 
-HangarNoTripulada = [['Cassini-Huygens','No Tripulada','1997','USA, Europa, Italia','Propelente quimico','Transmitir informacion','45,39 Kg\n'],
-                     ['Mariner IV','No Tripulada','1964','USA','Propelente quimico','Transmitir informacion','22,44 Kg'],
-                     ['Helios','No Tripulada','2009','USA, Alemania','Propelente quimico','Transmitir informacion','70,4 Kg']]
+HangarNoTripulada = [['Cassini-Huygens','No Tripulada','1997','USA, Europa, Italia','Propelente quimico','Transmitir informacion','45,39 Kg\n','50,32 Kg'],
+                     ['Mariner IV','No Tripulada','1964','USA','Propelente quimico','Transmitir informacion','22,44 Kg', '30,65 Kg'],
+                     ['Helios','No Tripulada','2009','USA, Alemania','Propelente quimico','Transmitir informacion','70,4 Kg','67,5 Kg']]
 
 # Creación de Hangar de Naves Tripuladas por defecto.
 
-HangarTripulada = [['LEM Apolo','Tripulada','1968','USA','Propelente quimico','Transportar astronautas a la luna','15,6 kN'],
-                   ['Salyut I','Tripulada','1971','Rusia','Quimico solido','Observacion cientifica','5,8 kN'],
-                   ['Vostok I','Tripulada','1960','Rusia','Quimico solido','Vuelos tripulados','13,4 kN']]
+HangarTripulada = [['LEM Apolo','Tripulada','1968','USA','Propelente quimico','Transportar astronautas a la luna','15,6 kN','20kN'],
+                   ['Salyut I','Tripulada','1971','Rusia','Quimico solido','Observacion cientifica','5,8 kN','4,3kN'],
+                   ['Vostok I','Tripulada','1960','Rusia','Quimico solido','Vuelos tripulados','13,4 kN','14kN']]
 
 
 
@@ -206,7 +206,7 @@ def Buscar_Nave(buscarNave):
 
         if opcionbuscar == 2:
             categoriabusqueda = input('Escriba categoria que desea buscar\t')
-            busqueda = buscarcategoria(Hangar,categoriabusqueda)
+            busqueda = buscarcategorias(Hangar,categoriabusqueda)
             if busqueda == None:
                 print('No existen elementos para esa busqueda')
             else:
@@ -262,7 +262,7 @@ def mostrarbusquedanombre(busqueda):
         print('Combustible de la nave: \t',busqueda[4])
         print('Mision de la nave:\t',busqueda[5] )
         print('Empuje de la nave:\t',busqueda[6] )
-        print('Potencia de la nave:\t',busqueda[7]) 
+        print('Potencia de la nave:\t',busqueda[7],'\n') 
 
 
 
@@ -271,19 +271,16 @@ def mostrarbusquedanombre(busqueda):
 # @elemento - string
 # Return none or encontrados
 
-def buscarcategoria(Hangar, elemento):
+def buscarcategorias(Hangar, elemento):
     encontrados = []
-    if elemento == 'No Tripulada' or elemento == 'Lanzadera' or elemento == 'Tripulada':
-        for busqueda in Hangar:
-            if busqueda[1] == elemento:
-                encontrados.append(busqueda)
-        if len(encontrados) == 0:
-            return None
-            
-        else:
-            return encontrados
+    for busqueda in Hangar:
+        if busqueda[1] == elemento:
+            encontrados.append(busqueda)
+    if len(encontrados) == 0:
+        return None
+        
     else:
-        print("\n Escribiste mal el nombre de la categoria, \n Estas son las categorias: Lanzadera, No Tripulada y Tripulada")
+        return encontrados
 
 
 # mostrarbusquedacategoria - Funcion que imprime la nave  que se pudo encontrar en los registros del hangar por categoria
@@ -300,7 +297,7 @@ def mostrarbusquedacategoria(busqueda):
         print('Combustible de la nave: \t',busqueda[4])
         print('Mision de la nave:\t',busqueda[5] )
         print('Empuje de la nave:\t',busqueda[6] )
-        print('Potencia de la nave:\t',busqueda[7]) 
+        print('Potencia de la nave:\t',busqueda[7],'\n') 
 
 
 # buscarano - Funcion que busca naves creadas por año
@@ -333,7 +330,8 @@ def mostrarbusquedaano(busqueda):
         print('Combustible de la nave: \t',busqueda[4])
         print('Mision de la nave:\t',busqueda[5] )
         print('Empuje de la nave:\t',busqueda[6] )
-        print('Potencia de la nave:\t',busqueda[7]) 
+        print('Potencia de la nave:\t',busqueda[7],'\n') 
+
 
 
 # buscarano - Funcion que busca naves creadas por país
@@ -366,7 +364,7 @@ def mostrarbusquedapais(busqueda):
         print('Combustible de la nave: \t',busqueda[4])
         print('Mision de la nave:\t',busqueda[5] )
         print('Empuje de la nave:\t',busqueda[6] )
-        print('Potencia de la nave:\t',busqueda[7]) 
+        print('Potencia de la nave:\t',busqueda[7],'\n') 
 
 
 
